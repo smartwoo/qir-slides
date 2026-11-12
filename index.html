@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="th" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>โครงการวิจัยเพื่อพัฒนาคุณภาพบริการสุขภาพ (QIR: What, Why, How)</title>
+<meta name="description" content="สไลด์ประกอบการเรียนการสอนและบทบรรยายรายสไลด์ รายวิชาเวชศาสตร์ชุมชน ชั้นปีที่ 5 (COMMED QIR) ภาควิชาเวชศาสตร์ชุมชน คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี มหาวิทยาลัยมหิดล">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%2303040f'/%3E%3Ccircle cx='24' cy='24' r='14' fill='none' stroke='%23ffd05a' stroke-width='3.5'/%3E%3Cpath d='M16 25l5 5 11-12' fill='none' stroke='%23ff8f8a' stroke-width='3.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="engine/deck.css">
+<link rel="stylesheet" href="engine/hud.css">
+</head>
+<body class="mode-present">
+<a class="skip" href="#deck">ข้ามไปที่สไลด์</a>
+<header class="topbar">
+  <span class="topbar__brand">QIR: What, Why, How</span>
+  <span class="topbar__where"><span id="chapter-name"></span><span id="slide-number"></span></span>
+  <nav class="modes" aria-label="มุมมอง">
+    <button type="button" data-mode="present" aria-pressed="true">นำเสนอ</button>
+    <button type="button" data-mode="read" aria-pressed="false">อ่านพร้อมบทบรรยาย</button>
+  </nav>
+  <span class="topbar__tools">
+    <a class="back-site" href="guide.html" title="เปิดอ่านเอกสารคำสอนแบบ Guided Learning ฉบับเต็ม">เอกสารคำสอน</a>
+    <button type="button" class="btn btn--ghost only-present" id="btn-notes" aria-pressed="false" title="แสดงหรือซ่อนบทบรรยายด้านล่าง (B)">บทบรรยาย</button>
+    <button type="button" class="btn btn--ghost only-present" id="btn-presenter" title="เปิดหน้าต่างผู้บรรยายจอที่สอง (n)">จอที่สอง</button>
+    <button type="button" class="btn btn--ghost btn--icon" id="btn-overview" title="สไลด์ทั้งหมด (O)" aria-label="สไลด์ทั้งหมด">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    </button>
+    <button type="button" class="btn btn--ghost btn--icon" id="btn-theme" title="สลับธีมสว่างหรือมืด (T)" aria-label="สลับธีม">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></svg>
+    </button>
+    <button type="button" class="btn btn--ghost btn--icon only-present" id="btn-full" title="เต็มจอ (F)" aria-label="เต็มจอ">
+      <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+    </button>
+    <button type="button" class="btn btn--ghost btn--icon" id="btn-help" title="ปุ่มลัด (?)" aria-label="ปุ่มลัด">?</button>
+  </span>
+</header>
+
+<main id="deck" class="deck" tabindex="-1"><p class="loading">กำลังโหลดสไลด์…</p></main>
+
+<aside class="notes-drawer" id="notes-drawer" hidden aria-label="บทบรรยายผู้สอน"></aside>
+
+<div class="ribbon only-present" aria-hidden="false">
+  <button type="button" class="btn btn--nav" id="btn-prev" aria-label="ก่อนหน้า">‹</button>
+  <span class="ribbon__pos" id="pos" aria-live="polite"></span>
+  <span class="ribbon__timer" id="timer" title="เวลาที่ใช้และความเร็วเทียบแผน"></span>
+  <button type="button" class="btn btn--speaker" id="btn-drawer" aria-pressed="false" aria-controls="notes-drawer" title="แสดงหรือซ่อนบทบรรยายด้านล่าง (ปุ่มลัด B หรือ Shift+N)">
+    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H8l-4 4V5z"/><path d="M8 9h8M8 12.5h5"/></svg>
+    <span id="btn-drawer-label">บทบรรยาย · แสดง</span>
+  </button>
+  <button type="button" class="btn btn--nav" id="btn-next" aria-label="ถัดไป">›</button>
+  <div class="ribbon__progress" role="progressbar" aria-label="ความคืบหน้าตามแผน" aria-valuemin="0"><span id="progress"></span></div>
+</div>
+
+<dialog id="overview" class="sheet" aria-labelledby="overview-title">
+  <div class="sheet__head"><h2 id="overview-title">สารบัญสไลด์ทั้งหมด (25 สไลด์ · 6 หมวดการเรียนรู้)</h2><button type="button" class="btn btn--icon btn--ghost" data-close aria-label="ปิด">×</button></div>
+  <ol class="overview" id="overview-list"></ol>
+</dialog>
+
+<dialog id="help" class="sheet sheet--narrow" aria-labelledby="help-title">
+  <div class="sheet__head"><h2 id="help-title">ปุ่มลัดและการใช้งาน</h2><button type="button" class="btn btn--icon btn--ghost" data-close aria-label="ปิด">×</button></div>
+  <dl class="keys">
+    <dt><kbd>→</kbd> <kbd>Space</kbd></dt><dd>ขั้นถัดไป หรือสไลด์ถัดไป</dd>
+    <dt><kbd>←</kbd></dt><dd>ขั้นก่อนหน้า หรือสไลด์ก่อนหน้า</dd>
+    <dt><kbd>B</kbd> หรือ <kbd>Shift</kbd>+<kbd>N</kbd></dt><dd>แสดง / ซ่อน แผงบทบรรยายด้านล่างของสไลด์</dd>
+    <dt><kbd>n</kbd></dt><dd>เปิดหน้าต่างผู้บรรยายจอที่สองพร้อมนาฬิกาจับเวลา</dd>
+    <dt><kbd>R</kbd></dt><dd>สลับโหมดอ่าน (แสดงทุกสไลด์เรียงลงมาพร้อมบทบรรยายครบทุกขั้น)</dd>
+    <dt><kbd>O</kbd></dt><dd>เปิดสารบัญสไลด์ทั้งหมดเพื่อข้ามไปยังสไลด์ที่ต้องการ</dd>
+    <dt><kbd>T</kbd></dt><dd>สลับธีมมืด (สำหรับห้องบรรยาย) หรือธีมสว่าง (สำหรับอ่านบนจอ)</dd>
+    <dt><kbd>F</kbd></dt><dd>แสดงผลเต็มจอ</dd>
+    <dt><kbd>Home</kbd> <kbd>End</kbd></dt><dd>ไปยังสไลด์แรก หรือสไลด์สุดท้าย</dd>
+    <dt><kbd>0</kbd></dt><dd>เริ่มจับเวลาการนำเสนอใหม่</dd>
+  </dl>
+  <p class="sheet__note">ปุ่ม <strong>บทบรรยาย · แสดง/ซ่อน</strong> ที่แถบล่างสุดช่วยให้ผู้สอนหรือผู้เรียนเปิดอ่านสคริปต์การบรรยายแบบ 1 ต่อ 1 ตามจังหวะขั้นของสไลด์ได้ทันทีโดยไม่บังเนื้อหาบนสไลด์ และสามารถคลิกปุ่ม <strong>เอกสารคำสอน</strong> ด้านบนเพื่อเปิดอ่านตำราแบบ Guided Learning ฉบับเต็ม</p>
+</dialog>
+
+<noscript><p class="loading">โปรดเปิดใช้งาน JavaScript เพื่อแสดงผลสไลด์เชิงโต้ตอบ</p></noscript>
+<script src="data.js"></script>
+<script src="engine/hud.js"></script>
+<script src="figures.js"></script>
+<script src="slides.js"></script>
+<script src="notes.js"></script>
+<script src="engine/deck.js"></script>
+</body>
+</html>
