@@ -51,6 +51,11 @@
   --bad: rgba(168, 54, 48, 0.28);
   --bad-text: #9e352f;
   --bad-soft: rgba(168, 54, 48, 0.045);
+
+  --wk1: #ffffff;
+  --wk2: #f4f7fc;
+  --wk3: #eaf2fc;
+  --wk4: #dceafa;
 }
 
 :root[data-theme="dark"] {
@@ -101,6 +106,11 @@
   --bad: rgba(229, 107, 101, 0.32);
   --bad-text: #eb827c;
   --bad-soft: rgba(229, 107, 101, 0.08);
+
+  --wk1: #141416;
+  --wk2: #151c26;
+  --wk3: #162436;
+  --wk4: #182f4c;
 }
 
 body {

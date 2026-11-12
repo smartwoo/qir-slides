@@ -20,10 +20,10 @@
 
   function card(p, x, y, w, h, opt) {
     opt = opt || {};
-    var sw = opt.sw ? Math.min(1.35, opt.sw * 0.78) : 1.0;
+    var sw = opt.dash ? (opt.sw || 1.65) : (opt.sw ? Math.min(1.45, opt.sw * 0.82) : 1.0);
     var g = S("g", {}, p);
     S("rect", {
-      x: x, y: y, width: w, height: h, rx: opt.rx != null ? Math.max(11, opt.rx) : 14,
+      x: x, y: y, width: w, height: h, rx: opt.rx != null ? Math.max(10, opt.rx) : 14,
       style: "fill:" + (opt.fill || "var(--card)") + ";stroke:" + (opt.stroke || "var(--line-strong)") +
         ";stroke-width:" + sw.toFixed(2) + (opt.dash ? ";stroke-dasharray:" + opt.dash : "")
     }, g);
@@ -182,36 +182,102 @@
     return bindSteps(host, [g1]);
   };
 
-  /* ---------- s02: 4-Week Roadmap & Hospital Feedback Loop (2 steps) ---------- */
+  /* ---------- s02: 4-Week Rotation Architecture (Top 3 Inputs -> Weeks 1-4 -> Bottom 3 Outputs, 2 steps) ---------- */
   FIGS.s02 = function (host) {
-    var svg = mainSvg(host, 470, "แผนที่การเดินทาง 4 สัปดาห์และวงจรส่งไม้ต่อโรงพยาบาลชุมชน");
+    var svg = wideSvg(host, 396, "โครงสร้างการฝึกปฏิบัติ 4 สัปดาห์ เชื่อมคลังปัญหาเดิมสู่การส่งไม้ต่อหลังจบวิชา");
     var g1 = S("g", {}, svg), g2 = S("g", {}, svg);
 
-    var weeks = [
-      { wk: "สัปดาห์ที่ 1", title: "สำรวจหน้างานและคัดเลือกปัญหา", desc: "รับโจทย์จากคลัง OFI Pool · ตามรอย 3 มุมมอง · จัดลำดับด้วย SSSFI", c: "var(--p1)", tc: "var(--p1-text)", bg: "var(--p1-soft)" },
-      { wk: "สัปดาห์ที่ 2", title: "ทบทวนวรรณกรรมและร่างข้อเสนอโครงการ", desc: "ชี้ช่องว่างความรู้เพื่อการดำเนินงาน · วาดกรอบแนวคิด · เลือกวิธีวิจัย", c: "var(--p2)", tc: "var(--p2-text)", bg: "var(--p2-soft)" },
-      { wk: "สัปดาห์ที่ 3", title: "เก็บข้อมูลจริงและวิเคราะห์รากเหง้าเชิงระบบ", desc: "เก็บข้อมูล QUAN/QUAL ร่วมกับทีม · ขุดรากสาเหตุด้วย 5 Whys & Fishbone", c: "var(--accent-text)", tc: "var(--accent-text)", bg: "var(--accent-soft)" },
-      { wk: "สัปดาห์ที่ 4", title: "สังเคราะห์กลยุทธ์และนำเสนอแลกเปลี่ยน", desc: "จับคู่ทางเลือก TOWS · สื่อสารด้วย Policy Brief · สะท้อนคิด 3 วงจร", c: "var(--good)", tc: "var(--good-text)", bg: "var(--good-soft)" }
-    ];
+    /* Top-left rotation header */
+    txt(g1, 100, 29, "4 week rotation", { anchor: "middle", fs: 17, fw: 600, fill: "var(--text-1)" });
+    txt(g1, 100, 50, "โครงสร้างฝึกปฏิบัติ 4 สัปดาห์", { anchor: "middle", fs: 12.2, fill: "var(--muted)" });
 
-    weeks.forEach(function (w, i) {
-      var y = 18 + i * 84;
-      card(g1, 18, y, 548, 70, { bar: w.c, stroke: w.c, sw: 1.3 });
-      pill(g1, 84, y + 35, 102, 30, w.wk, { fill: w.bg, stroke: w.c, color: w.tc, fs: 13 });
-      txt(g1, 150, y + 29, w.title, { fs: 15, fw: 600, fill: "var(--text-1)" });
-      txt(g1, 150, y + 51, w.desc, { fs: 12.8, fill: "var(--text-2)" });
-      if (i < 3) arrow(g1, 84, y + 70, 84, y + 84, { stroke: "var(--axis)", sw: 1.8 });
+    /* Row 0: 3 Input Sources feeding into 1st Week */
+    var inputs = [
+      { x: 204, w: 286, th: 'คลังโอกาสพัฒนาเดิม ("OFI" Pools)', en: 'Existing "OFI" Pools', dashed: true },
+      { x: 502, w: 294, th: "โครงการพัฒนาที่ดำเนินการอยู่เดิม", en: "Ongoing CQI/R2R projects", dashed: true },
+      { x: 808, w: 378, th: "ประเด็นที่สังเกตพบขณะขึ้นฝึกทางคลินิก", en: "Exploring personal interests during clinical clerkship", dashed: false }
+    ];
+    inputs.forEach(function (inp) {
+      card(g1, inp.x, 4, inp.w, 56, {
+        rx: 10,
+        fill: inp.dashed ? "var(--accent-soft)" : "var(--card-strong)",
+        stroke: inp.dashed ? "var(--accent)" : "var(--line-strong)",
+        sw: inp.dashed ? 1.75 : 1.15,
+        dash: inp.dashed ? "7 4" : null
+      });
+      var cx = inp.x + inp.w / 2;
+      txt(g1, cx, 27, inp.th, { anchor: "middle", fs: 13.3, fw: 600, fill: inp.dashed ? "var(--accent-text)" : "var(--text-1)" });
+      txt(g1, cx, 47, inp.en, { anchor: "middle", fs: 11.8, fill: inp.dashed ? "var(--text-2)" : "var(--muted)" });
+      arrow(g1, cx, 61, cx, 73, { stroke: inp.dashed ? "var(--accent-text)" : "var(--axis)", sw: 1.5, mk: inp.dashed ? "hud-arrow-acc" : "hud-arrow" });
     });
 
-    card(g2, 18, 366, 548, 88, { rx: 14, fill: "var(--good-soft)", stroke: "var(--good)", sw: 1.8 });
-    txt(g2, 38, 395, "หัวใจสัปดาห์ที่ 4 · วงจรรับฟังเสียงสะท้อนทีมหน้างาน (Hospital Co-Design)", { fs: 14.5, fw: 600, fill: "var(--good-text)" });
-    lines(g2, 38, 418, [
-      "นำร่างทางเลือกกลับไปคุยกับพยาบาล เภสัชกร ช่าง และทีมนำ เพื่อปรับให้ทำได้จริงในบริบทเวร",
-      "ก่อนส่งไม้ต่อกลับเข้าคลังโอกาสพัฒนา (OFI Pool) งาน CQI หรือต่อยอดเป็น R2R ของโรงพยาบาล"
-    ], { fs: 12.8, lh: 19, fill: "var(--text-1)" });
+    /* Rows 1–3: Weeks 1 to 3 (Step 1) */
+    var weeks13 = [
+      {
+        th: "สัปดาห์ที่ 1", en: "1st Week", fill: "var(--wk1)", stroke: "var(--line-strong)",
+        head: "ระบุและจัดลำดับปัญหา · Problem Identification",
+        desc: "เดินตามรอยหน้างาน 3 มุมมอง (Tracer & Gemba) · นิยามช่องว่างผลลัพธ์ที่วัดได้จริง · คัดเลือกด้วยเกณฑ์ SSSFI"
+      },
+      {
+        th: "สัปดาห์ที่ 2", en: "2nd Week", fill: "var(--wk2)", stroke: "var(--line-strong)",
+        head: "ทบทวนวรรณกรรมและวางกรอบแนวคิด · Literature Review & Conceptualization",
+        desc: "ชี้ช่องว่างการนำความรู้ไปใช้จริง (Implementation Gap) · วาดพิมพ์เขียวกรอบแนวคิด · เลือกวิธีวิจัยตามคำถามวิจัย"
+      },
+      {
+        th: "สัปดาห์ที่ 3", en: "3rd Week", fill: "var(--wk3)", stroke: "var(--p1)",
+        head: "เก็บและวิเคราะห์ข้อมูลจริง · Data Collection / Data Analysis",
+        desc: "ผสานข้อมูล QUAN / QUAL ร่วมกับทีมสหวิชาชีพ · ขุดรากสาเหตุเชิงระบบด้วย ToC, 5 Whys, Fishbone และ Swiss Cheese"
+      }
+    ];
+    weeks13.forEach(function (w, idx) {
+      var y = 76 + idx * 58;
+      card(g1, 14, y, 172, 50, { rx: 10, fill: "var(--card)", stroke: "var(--line-strong)" });
+      txt(g1, 100, y + 22, w.th, { anchor: "middle", fs: 13.8, fw: 600, fill: "var(--text-1)" });
+      txt(g1, 100, y + 40, w.en, { anchor: "middle", fs: 11.6, fill: "var(--muted)" });
 
-    pathArrow(g2, "M 566 410 C 622 410, 622 53, 570 53", { stroke: "var(--accent-text)", sw: 2.3, mk: "hud-arrow-acc" });
-    pill(g2, 594, 232, 82, 28, "ส่งคืน OFI", { fill: "var(--card-strong)", stroke: "var(--accent-text)", color: "var(--accent-text)", fs: 12 });
+      card(g1, 204, y, 982, 50, { rx: 10, fill: w.fill, stroke: w.stroke, sw: 1.15 });
+      txt(g1, 695, y + 21, w.head, { anchor: "middle", fs: 14.0, fw: 600, fill: "var(--text-1)" });
+      txt(g1, 695, y + 40, w.desc, { anchor: "middle", fs: 12.0, fill: "var(--text-2)" });
+    });
+
+    /* Row 4: 4th Week (Step 2) */
+    var y4 = 250;
+    card(g2, 14, y4, 172, 58, { rx: 10, fill: "var(--accent-soft)", stroke: "var(--accent)", sw: 1.45 });
+    txt(g2, 100, y4 + 25, "สัปดาห์ที่ 4", { anchor: "middle", fs: 14.2, fw: 600, fill: "var(--accent-text)" });
+    txt(g2, 100, y4 + 44, "4th Week", { anchor: "middle", fs: 11.8, fill: "var(--text-2)" });
+
+    card(g2, 204, y4, 982, 58, { rx: 10, fill: "var(--wk4)", stroke: "var(--accent)", sw: 1.6 });
+    txt(g2, 695, y4 + 24, "จากร่างทางแก้สู่แผนที่ทำได้จริง · ขัดเกลาด้วยเสียงสะท้อนของทีมโรงพยาบาล (TOWS & Policy Brief)", {
+      anchor: "middle", fs: 14.1, fw: 600, fill: "var(--accent-text)"
+    });
+    txt(g2, 695, y4 + 45, "From Proposed Solutions to Actionable Plans: Enriching Ideas Through Hospital Team Feedback", {
+      anchor: "middle", fs: 12.0, fill: "var(--text-1)"
+    });
+
+    /* Row 5: 3 Continuity Hand-off Outputs (Step 2) */
+    var outputs = [
+      { x: 204, w: 356, th: 'อัปเดตคลังโอกาสพัฒนา ("OFI" Pools) รพ.ชุมชน', en: 'Updating "OFI" Pools at community hospitals' },
+      { x: 572, w: 292, th: "ต่อยอดเป็นโครงการ R2R ต่อเนื่อง", en: "Continuing R2R projects" },
+      { x: 876, w: 310, th: "นำเสนอในเวทีวิชาการ R2R / CM", en: "Conducting R2R/CM conference" }
+    ];
+    outputs.forEach(function (out) {
+      var cx = out.x + out.w / 2;
+      arrow(g2, cx, 310, cx, 324, { stroke: "var(--accent-text)", sw: 1.55, mk: "hud-arrow-acc" });
+      card(g2, out.x, 327, out.w, 60, {
+        rx: 10,
+        fill: "var(--accent-soft)",
+        stroke: "var(--accent)",
+        sw: 1.75,
+        dash: "7 4"
+      });
+      txt(g2, cx, 352, out.th, { anchor: "middle", fs: 13.2, fw: 600, fill: "var(--accent-text)" });
+      txt(g2, cx, 372, out.en, { anchor: "middle", fs: 11.7, fill: "var(--text-2)" });
+    });
+
+    /* Legend & Continuity cue in bottom-left corner */
+    card(g2, 14, 327, 172, 60, { rx: 10, fill: "var(--card-strong)", stroke: "var(--accent)", sw: 1.4, dash: "6 4" });
+    txt(g2, 100, 352, "กรอบเส้นประ", { anchor: "middle", fs: 12.4, fw: 600, fill: "var(--accent-text)" });
+    txt(g2, 100, 372, "วงจรงานต่อเนื่องของ รพ.", { anchor: "middle", fs: 11.4, fill: "var(--muted)" });
 
     return bindSteps(host, [g1, g2]);
   };
