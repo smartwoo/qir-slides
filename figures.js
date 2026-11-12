@@ -20,21 +20,22 @@
 
   function card(p, x, y, w, h, opt) {
     opt = opt || {};
+    var sw = opt.sw ? Math.min(1.35, opt.sw * 0.78) : 1.0;
     var g = S("g", {}, p);
     S("rect", {
-      x: x, y: y, width: w, height: h, rx: opt.rx != null ? opt.rx : 12,
+      x: x, y: y, width: w, height: h, rx: opt.rx != null ? Math.max(11, opt.rx) : 14,
       style: "fill:" + (opt.fill || "var(--card)") + ";stroke:" + (opt.stroke || "var(--line-strong)") +
-        ";stroke-width:" + (opt.sw || 1.3) + (opt.dash ? ";stroke-dasharray:" + opt.dash : "")
+        ";stroke-width:" + sw.toFixed(2) + (opt.dash ? ";stroke-dasharray:" + opt.dash : "")
     }, g);
     if (opt.bar) {
       S("rect", {
-        x: x, y: y + 8, width: 4.5, height: Math.max(8, h - 16), rx: 2.2,
+        x: x, y: y + 10, width: 3.2, height: Math.max(8, h - 20), rx: 1.6,
         style: "fill:" + opt.bar
       }, g);
     }
     if (opt.topBar) {
       S("rect", {
-        x: x + 10, y: y, width: Math.max(12, w - 20), height: 4, rx: 2,
+        x: x + 14, y: y, width: Math.max(12, w - 28), height: 3, rx: 1.5,
         style: "fill:" + opt.topBar
       }, g);
     }
@@ -74,7 +75,7 @@
     var g = S("g", {}, p);
     S("rect", {
       x: cx - w / 2, y: cy - h / 2, width: w, height: h, rx: opt.rx != null ? opt.rx : h / 2,
-      style: "fill:" + (opt.fill || "var(--p1-soft)") + ";stroke:" + (opt.stroke || "var(--p1)") + ";stroke-width:" + (opt.sw || 1.3)
+      style: "fill:" + (opt.fill || "var(--p1-soft)") + ";stroke:" + (opt.stroke || "var(--p1)") + ";stroke-width:" + (opt.sw || 1.0)
     }, g);
     txt(g, cx, cy + (opt.fs || 13) * 0.35, label, {
       anchor: "middle", fs: opt.fs || 13, fw: opt.fw || 600, fill: opt.color || "var(--text-1)"
@@ -88,7 +89,7 @@
     return S("line", {
       x1: x1, y1: y1, x2: x2, y2: y2,
       "marker-end": "url(#" + mk + ")",
-      style: "stroke:" + (opt.stroke || "var(--axis)") + ";stroke-width:" + (opt.sw || 1.8) +
+      style: "stroke:" + (opt.stroke || "var(--axis)") + ";stroke-width:" + (opt.sw ? Math.min(2.0, opt.sw * 0.82) : 1.45) +
         (opt.dash ? ";stroke-dasharray:" + opt.dash : "")
     }, p);
   }
@@ -99,7 +100,7 @@
     return S("path", {
       d: d,
       "marker-end": opt.noHead ? null : "url(#" + mk + ")",
-      style: "fill:none;stroke:" + (opt.stroke || "var(--axis)") + ";stroke-width:" + (opt.sw || 1.9) +
+      style: "fill:none;stroke:" + (opt.stroke || "var(--axis)") + ";stroke-width:" + (opt.sw ? Math.min(2.1, opt.sw * 0.82) : 1.55) +
         (opt.dash ? ";stroke-dasharray:" + opt.dash : "")
     }, p);
   }
@@ -137,21 +138,21 @@
     var cx = 270, cy = 244, R = 166;
 
     S("circle", { cx: cx, cy: cy, r: R + 28, style: "fill:none;stroke:var(--grid);stroke-width:1" }, g1);
-    S("circle", { cx: cx, cy: cy, r: R, style: "fill:none;stroke:var(--line-strong);stroke-width:1.4;stroke-dasharray:5 5" }, g1);
-    S("circle", { cx: cx, cy: cy, r: 92, style: "fill:var(--p1-soft);stroke:var(--p1);stroke-width:1.6" }, g1);
-    S("circle", { cx: cx, cy: cy, r: 74, style: "fill:var(--card-strong);stroke:var(--accent-text);stroke-width:1.6" }, g1);
+    S("circle", { cx: cx, cy: cy, r: R, style: "fill:none;stroke:var(--line-strong);stroke-width:1.1;stroke-dasharray:4 5" }, g1);
+    S("circle", { cx: cx, cy: cy, r: 92, style: "fill:var(--accent-soft);stroke:var(--p1);stroke-width:1.1" }, g1);
+    S("circle", { cx: cx, cy: cy, r: 74, style: "fill:var(--card-strong);stroke:var(--line-strong);stroke-width:1.2" }, g1);
 
-    pulse(g1, cx, cy - 38, 12, "var(--accent-text)");
-    txt(g1, cx, cy - 8, "COMMED QIR", { anchor: "middle", fs: 17, fw: 600, fill: "var(--accent-text)" });
-    txt(g1, cx, cy + 16, "วิจัยเพื่อพัฒนาคุณภาพ", { anchor: "middle", fs: 13.5, fw: 500, fill: "var(--text-1)" });
-    txt(g1, cx, cy + 36, "โรงพยาบาลชุมชน 4 สัปดาห์", { anchor: "middle", fs: 12.5, fill: "var(--muted)" });
+    pulse(g1, cx, cy - 38, 11, "var(--accent-text)");
+    txt(g1, cx, cy - 8, "COMMED QIR", { anchor: "middle", fs: 16.5, fw: 600, fill: "var(--accent-text)" });
+    txt(g1, cx, cy + 15, "วิจัยเพื่อพัฒนาคุณภาพ", { anchor: "middle", fs: 13.5, fw: 600, fill: "var(--text-1)" });
+    txt(g1, cx, cy + 35, "โรงพยาบาลชุมชน 4 สัปดาห์", { anchor: "middle", fs: 12, fill: "var(--muted)" });
 
     var nodes = [
-      { a: -90, title: "1. คลังโอกาสพัฒนา", sub: "OFI Pool & หน้างานจริง", fill: "var(--p1-soft)", stroke: "var(--p1)", tc: "var(--p1-text)" },
-      { a: -18, title: "2. โจทย์ & กรอบแนวคิด", sub: "Implementation Gap", fill: "var(--p2-soft)", stroke: "var(--p2)", tc: "var(--p2-text)" },
-      { a: 54,  title: "3. เก็บข้อมูล & รากเหง้า", sub: "MMR · Fishbone · Swiss Cheese", fill: "var(--accent-soft)", stroke: "var(--accent-text)", tc: "var(--accent-text)" },
-      { a: 126, title: "4. กลยุทธ์ & Policy Brief", sub: "TOWS 4 ทิศทางเพื่อตัดสินใจ", fill: "var(--good-soft)", stroke: "var(--good)", tc: "var(--good-text)" },
-      { a: 198, title: "5. ร่วมออกแบบกับทีม", sub: "ส่งไม้ต่อสู่ CQI & R2R", fill: "var(--p3-soft)", stroke: "var(--p3)", tc: "var(--p3-text)" }
+      { a: -90, title: "01 · คลังโอกาสพัฒนา", sub: "OFI Pool & หน้างานจริง" },
+      { a: -18, title: "02 · โจทย์ & กรอบแนวคิด", sub: "Implementation Gap" },
+      { a: 54,  title: "03 · เก็บข้อมูล & รากเหง้า", sub: "MMR · Fishbone · Swiss Cheese" },
+      { a: 126, title: "04 · กลยุทธ์ & Policy Brief", sub: "TOWS 4 ทิศทางเพื่อตัดสินใจ" },
+      { a: 198, title: "05 · ร่วมออกแบบกับทีม", sub: "ส่งไม้ต่อสู่ CQI & R2R" }
     ];
 
     nodes.forEach(function (n, idx) {
@@ -162,15 +163,15 @@
       var sx = cx + Math.cos(a1) * R, sy = cy + Math.sin(a1) * R;
       var ex = cx + Math.cos(a2) * R, ey = cy + Math.sin(a2) * R;
       pathArrow(g1, "M " + sx.toFixed(1) + " " + sy.toFixed(1) + " A " + R + " " + R + " 0 0 1 " + ex.toFixed(1) + " " + ey.toFixed(1),
-        { stroke: "var(--accent-text)", sw: 1.8, mk: "hud-arrow-acc" });
+        { stroke: "var(--accent-text)", sw: 1.5, mk: "hud-arrow-acc" });
 
-      var bw = 176, bh = 54;
-      card(g1, nx - bw / 2, ny - bh / 2, bw, bh, { rx: 12, fill: "var(--card-strong)", stroke: n.stroke, sw: 1.5 });
-      txt(g1, nx, ny - 5, n.title, { anchor: "middle", fs: 13.5, fw: 600, fill: n.tc });
-      txt(g1, nx, ny + 15, n.sub, { anchor: "middle", fs: 12, fill: "var(--text-2)" });
+      var bw = 178, bh = 54;
+      card(g1, nx - bw / 2, ny - bh / 2, bw, bh, { rx: 14, fill: "var(--card-strong)", stroke: "var(--line-strong)", sw: 1.1 });
+      txt(g1, nx, ny - 5, n.title, { anchor: "middle", fs: 13.2, fw: 600, fill: "var(--text-1)" });
+      txt(g1, nx, ny + 15, n.sub, { anchor: "middle", fs: 11.8, fill: "var(--muted)" });
     });
 
-    var orb = S("circle", { cx: cx, cy: cy - R, r: 4.5, style: "fill:var(--accent-text)" }, g1);
+    var orb = S("circle", { cx: cx, cy: cy - R, r: 4, style: "fill:var(--accent-text)" }, g1);
     var theta = -Math.PI / 2;
     loop(host, function (dt) {
       theta = (theta + dt * 0.00055) % (Math.PI * 2);

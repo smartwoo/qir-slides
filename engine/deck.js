@@ -319,10 +319,8 @@
 
   /* ---------- overview, help, mode, theme ---------- */
   function buildOverview() {
-    var colors = ["var(--accent-text)", "var(--p1)", "var(--p2)", "var(--p3)", "var(--good)", "var(--accent-text)"];
     $("#overview-list").innerHTML = S.map(function (s, i) {
-      var c = colors[s.chapter % colors.length];
-      return '<li><button type="button" data-goto="' + i + '"><span class="o-n"><span><span class="o-dot" style="background:' + c + '"></span>' + (i + 1) + " · " + chapterName(s) + "</span><span>" + fmt(plannedStart[i]) + "</span></span>" +
+      return '<li><button type="button" data-goto="' + i + '"><span class="o-n"><span><span class="o-dot" style="background:var(--accent)"></span>' + (i + 1) + " · " + chapterName(s) + "</span><span>" + fmt(plannedStart[i]) + "</span></span>" +
         '<span class="o-t">' + strip(s.title) + "</span></button></li>";
     }).join("");
   }
@@ -346,11 +344,11 @@
   function currentTheme() {
     var t = document.documentElement.getAttribute("data-theme");
     if (t) return t;
-    return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+    return "light";
   }
   function setTheme(t) {
     document.documentElement.setAttribute("data-theme", t);
-    store.set("theme", t);
+    store.set("theme-apple", t);
     var b = $("#btn-theme"); if (b) b.setAttribute("aria-label", t === "dark" ? "สลับเป็นธีมสว่าง" : "สลับเป็นธีมมืด");
   }
   function fullscreen() {
@@ -413,9 +411,9 @@
   /* ---------- boot ---------- */
   function boot() {
     if (isNotesView) { notesView(); return; }
-    var t = store.get("theme");
+    var t = store.get("theme-apple");
     if (t === "light" || t === "dark") setTheme(t);
-    else if (!document.documentElement.getAttribute("data-theme")) document.documentElement.setAttribute("data-theme", "dark");
+    else setTheme("light");
 
     var savedFs = parseFloat(store.get("noteFs") || "");
     if (savedFs >= 13 && savedFs <= 24) {

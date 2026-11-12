@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>เอกสารคำสอน Guided Learning · โครงการวิจัยเพื่อพัฒนาคุณภาพบริการสุขภาพ (QIR)</title>
 <meta name="description" content="เอกสารคำสอนแบบ Guided Learning ฉบับสมบูรณ์ รายวิชาเวชศาสตร์ชุมชน ชั้นปีที่ 5 ภาควิชาเวชศาสตร์ชุมชน คณะแพทยศาสตร์โรงพยาบาลรามาธิบดี มหาวิทยาลัยมหิดล">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%2303040f'/%3E%3Ccircle cx='24' cy='24' r='14' fill='none' stroke='%23ffd05a' stroke-width='3.5'/%3E%3Cpath d='M16 25l5 5 11-12' fill='none' stroke='%23ff8f8a' stroke-width='3.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%231d1d1f'/%3E%3Ccircle cx='24' cy='24' r='14' fill='none' stroke='%23f5f5f7' stroke-width='2.8' stroke-opacity='.35'/%3E%3Cpath d='M16 25l5 5 11-12' fill='none' stroke='%232997ff' stroke-width='3.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
 @font-face { font-family: "Prompt"; font-weight: 300; font-display: swap; src: url("engine/fonts/Prompt-Light.ttf") format("truetype"); }
 @font-face { font-family: "Prompt"; font-weight: 400; font-display: swap; src: url("engine/fonts/Prompt-Regular.ttf") format("truetype"); }
@@ -14,71 +14,76 @@
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg: #f7f8fc;
+  --bg: #f5f5f7;
   --paper: #ffffff;
-  --surface: #eef1f8;
-  --line: rgba(15, 23, 52, 0.12);
-  --line-strong: rgba(15, 23, 52, 0.24);
-  --text-1: #11162c;
-  --text-2: #2d3452;
-  --muted: #5b6280;
-  --accent: #9a5b00;
-  --accent-soft: rgba(184, 114, 0, 0.10);
-  --p1: #1d5fb0;
-  --p1-soft: rgba(29, 95, 176, 0.09);
-  --p2: #543ec2;
-  --p2-soft: rgba(84, 62, 194, 0.09);
-  --good: #157348;
-  --good-soft: rgba(21, 115, 72, 0.10);
+  --glass: rgba(251, 251, 253, 0.80);
+  --surface: #f5f5f7;
+  --line: rgba(0, 0, 0, 0.08);
+  --line-strong: rgba(0, 0, 0, 0.16);
+  --text-1: #1d1d1f;
+  --text-2: #424245;
+  --muted: #6e6e73;
+  --accent: #0066cc;
+  --accent-soft: rgba(0, 113, 227, 0.065);
+  --p1: #0066cc;
+  --p1-soft: rgba(0, 113, 227, 0.055);
+  --p2: #424245;
+  --p2-soft: rgba(29, 29, 31, 0.04);
+  --good: #0066cc;
+  --good-soft: rgba(0, 113, 227, 0.065);
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #050714;
-  --paper: #0d1024;
-  --surface: #161b36;
-  --line: rgba(255, 255, 255, 0.12);
-  --line-strong: rgba(255, 255, 255, 0.24);
-  --text-1: #f4f5fb;
-  --text-2: #d2d5e8;
-  --muted: #989eba;
-  --accent: #ffd05a;
-  --accent-soft: rgba(255, 208, 90, 0.13);
-  --p1: #8cc2ff;
-  --p1-soft: rgba(57, 135, 229, 0.18);
-  --p2: #c0b8ff;
-  --p2-soft: rgba(144, 133, 233, 0.18);
-  --good: #62e2b0;
-  --good-soft: rgba(47, 179, 131, 0.18);
+  --bg: #000000;
+  --paper: #121214;
+  --glass: rgba(18, 18, 20, 0.80);
+  --surface: #1d1d1f;
+  --line: rgba(255, 255, 255, 0.10);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --text-1: #f5f5f7;
+  --text-2: #c7c7cc;
+  --muted: #86868b;
+  --accent: #2997ff;
+  --accent-soft: rgba(41, 151, 255, 0.11);
+  --p1: #2997ff;
+  --p1-soft: rgba(41, 151, 255, 0.09);
+  --p2: #a1a1a6;
+  --p2-soft: rgba(255, 255, 255, 0.05);
+  --good: #2997ff;
+  --good-soft: rgba(41, 151, 255, 0.10);
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; font-family: "Prompt", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-body { margin: 0; background: var(--bg); color: var(--text-1); line-height: 1.78; font-size: 16.5px; }
+body { margin: 0; background: var(--bg); color: var(--text-1); line-height: 1.78; font-size: 16.5px; -webkit-font-smoothing: antialiased; }
 
-.read-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 60; background: transparent; }
-.read-progress span { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, #ff5cb8, #ff8f8a, #ffd250); }
+.read-progress { position: fixed; top: 0; left: 0; right: 0; height: 2.5px; z-index: 60; background: transparent; }
+.read-progress span { display: block; height: 100%; width: 0%; background: #0071e3; }
 
 .nav-bar {
   position: sticky; top: 0; z-index: 50;
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 10px 22px; background: var(--paper); border-bottom: 1px solid var(--line);
+  padding: 10px 22px; background: var(--glass);
+  backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--line);
 }
-.nav-brand { font-weight: 600; font-size: 15px; color: var(--text-1); display: flex; align-items: center; gap: 10px; }
+.nav-brand { font-weight: 600; font-size: 15px; color: var(--text-1); display: flex; align-items: center; gap: 10px; letter-spacing: -0.01em; }
 .nav-crest {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 28px; height: 28px; border-radius: 50%; background: var(--p1-soft);
-  border: 1px solid var(--p1); color: var(--p1); font-size: 12px; font-weight: 600;
+  width: 28px; height: 28px; border-radius: 50%; background: var(--surface);
+  border: 1px solid var(--line-strong); color: var(--text-1); font-size: 11.5px; font-weight: 600;
 }
 .nav-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .btn-chip {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 13px; border-radius: 999px; border: 1px solid var(--line-strong);
+  padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line-strong);
   background: var(--surface); color: var(--text-1); text-decoration: none;
   font-family: inherit; font-size: 13.5px; font-weight: 500; cursor: pointer;
 }
 .btn-chip:hover { border-color: var(--p1); color: var(--p1); }
-.btn-chip--primary { background: var(--p1-soft); border-color: var(--p1); color: var(--p1); }
+.btn-chip--primary { background: #0071e3; border-color: #0071e3; color: #ffffff; }
+.btn-chip--primary:hover { background: #0077ed; border-color: #0077ed; color: #ffffff; }
 
 .layout {
   max-width: 1320px; margin: 0 auto; padding: 28px 22px 80px;
